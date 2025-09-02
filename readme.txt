@@ -1,15 +1,5 @@
-SMMC - PDF Margin Adjuster with Watermark v1.0.0
+SMMC - LabReports With Watermark v1.0.0
 ==================================================
-
-OVERVIEW:
----------
-SMMC is a powerful yet easy-to-use application that allows you to:
-• Add custom top margins to PDF documents
-• Apply watermarks using your own logo images
-• Batch process multiple pages with consistent formatting
-• Preview results before saving
-• Maintain original PDF quality
-
 FEATURES:
 ---------
 ✓ Adjustable top margin (1-10 lines)
@@ -49,12 +39,6 @@ USAGE:
    - "Process & Open PDF": Creates temporary file for preview
    - "Process & Save PDF": Saves processed PDF permanently
 
-LOGO REQUIREMENTS:
------------------
-• Supported formats: PNG (recommended), JPG, JPEG, GIF, BMP, TIFF
-• Recommended size: 300x300 pixels or larger
-• PNG format with transparency works best for watermarks
-• The app will automatically scale your logo to fit appropriately
 
 TROUBLESHOOTING:
 ---------------
@@ -67,8 +51,8 @@ TROUBLESHOOTING:
 SUPPORT:
 --------
 For technical support or questions:
-Email: support@yourcompany.com
-Website: https://yourwebsite.com/support
+Email: muhammad.asadullah.suhail@gmail.com
+
 
 VERSION HISTORY:
 ---------------
@@ -80,5 +64,6 @@ v1.0.0 (2025) - Initial release
 
 COPYRIGHT:
 ----------
-Copyright © 2025 Your Company Name
+Copyright © 2025 SIPRA
+
 All rights reserved.
