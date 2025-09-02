@@ -1,0 +1,40 @@
+END-USER LICENSE AGREEMENT (EULA)
+SMMC - PDF Margin Adjuster with Watermark
+
+Copyright © 2025 SIPRA
+
+IMPORTANT - READ CAREFULLY: This End-User License Agreement ("EULA") is a legal agreement between you (either an individual or a single entity) and SIPRA for the SMMC software product identified above, which includes computer software and may include associated media, printed materials, and "online" or electronic documentation ("SOFTWARE PRODUCT").
+
+By installing, copying, or otherwise using the SOFTWARE PRODUCT, you agree to be bound by the terms of this EULA. If you do not agree to the terms of this EULA, do not install or use the SOFTWARE PRODUCT.
+
+SOFTWARE PRODUCT LICENSE
+
+The SOFTWARE PRODUCT is protected by copyright laws and international copyright treaties, as well as other intellectual property laws and treaties. The SOFTWARE PRODUCT is licensed, not sold.
+
+1. GRANT OF LICENSE
+This EULA grants you the following rights:
+• Installation and Use: You may install and use one copy of the SOFTWARE PRODUCT on a single computer.
+• Backup Copy: You may make one backup copy of the SOFTWARE PRODUCT for archival purposes only.
+
+2. DESCRIPTION OF OTHER RIGHTS AND LIMITATIONS
+• Limitations on Reverse Engineering: You may not reverse engineer, decompile, or disassemble the SOFTWARE PRODUCT.
+• Rental: You may not rent, lease, or lend the SOFTWARE PRODUCT.
+• Support Services: SIPRA may provide you with support services related to the SOFTWARE PRODUCT.
+
+3. DISTRIBUTION
+You may not distribute copies of the SOFTWARE PRODUCT to third parties without written permission from SIPRA.
+
+4. TERMINATION
+Without prejudice to any other rights, SIPRA may terminate this EULA if you fail to comply with the terms and conditions of this EULA.
+
+5. COPYRIGHT
+All title and copyrights in and to the SOFTWARE PRODUCT are owned by SIPRA.
+
+6. NO WARRANTIES
+The SOFTWARE PRODUCT is provided "AS IS" without warranty of any kind. SIPRA disclaims all warranties, either express or implied, including but not limited to implied warranties of merchantability and fitness for a particular purpose.
+
+7. LIMITATION OF LIABILITY
+In no event shall SIPRA be liable for any damages whatsoever arising out of the use of or inability to use this SOFTWARE PRODUCT.
+
+If you have any questions concerning this EULA, please contact:
+Email: Muhammad.asadullah.suhail@gmail.com

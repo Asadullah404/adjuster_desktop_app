@@ -1,0 +1,17 @@
+# PDF processing dependencies
+PyPDF2==3.0.1
+PyMuPDF==1.23.14
+reportlab==4.0.7
+
+# Image processing
+Pillow==10.1.0
+
+# GUI framework (usually included with Python, but listed for completeness)
+# tkinter is part of Python standard library, no need to install
+
+# Additional dependencies that might be needed for PyInstaller
+pyinstaller==6.3.0
+
+# Optional: For better compatibility
+setuptools>=65.0.0
+wheel>=0.38.0
