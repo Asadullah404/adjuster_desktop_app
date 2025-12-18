@@ -8,17 +8,11 @@ a = Analysis(
     binaries=[],
     datas=[
         ('logo.png', '.'),  # Include your logo file
-        # Add any other resource files here
+        ('background.pdf', '.'),  # Include default background
     ],
     hiddenimports=[
         'tkinter',
         'tkinter.filedialog',
-        'tkinter.messagebox',
-        'tkinter.ttk',
-        'PyPDF2',
-        'reportlab.pdfgen.canvas',
-        'reportlab.lib.pagesizes',
-        'reportlab.lib.units',
         'fitz',
         'PIL.Image',
         'threading',

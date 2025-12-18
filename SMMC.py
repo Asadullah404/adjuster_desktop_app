@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
-import PyPDF2
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter, A4
-from reportlab.lib.units import inch
+# import PyPDF2  # Removed unused dependency
+# from reportlab.pdfgen import canvas  # Removed unused dependency
+# from reportlab.lib.pagesizes import letter, A4  # Removed unused dependency
+# from reportlab.lib.units import inch  # Removed unused dependency
 import os
 import tempfile
 import fitz  # PyMuPDF
@@ -32,6 +32,21 @@ class PDFMarginAdjuster:
         default_logo = os.path.join(script_dir, "logo.png")
         if os.path.exists(default_logo):
             self.logo_file = default_logo
+            
+        # Check for default background in root or tool/background.pdf
+        self.background_file = ""
+        self.use_background = tk.BooleanVar(value=False)
+        
+        possible_bgs = [
+            os.path.join(script_dir, "background.pdf"),
+            os.path.join(script_dir, "tool", "background.pdf")
+        ]
+        
+        for bg_path in possible_bgs:
+            if os.path.exists(bg_path):
+                self.background_file = bg_path
+                # DEFAULT DISABLED: self.use_background.set(True)
+                break
         
         # Register cleanup function
         atexit.register(self.cleanup_temp_files)
@@ -121,6 +136,48 @@ class PDFMarginAdjuster:
             padx=20
         )
         logo_btn.pack(side='right', padx=(10, 0))
+        
+        # Background file selection
+        bg_frame = tk.Frame(self.root, bg='#f0f0f0')
+        bg_frame.pack(pady=10, padx=20, fill='x')
+        
+        bg_header_frame = tk.Frame(bg_frame, bg='#f0f0f0')
+        bg_header_frame.pack(fill='x')
+        
+        tk.Checkbutton(
+            bg_header_frame,
+            text="Apply Background PDF",
+            variable=self.use_background,
+            font=("Arial", 10, "bold"),
+            bg='#f0f0f0',
+            activebackground='#f0f0f0'
+        ).pack(side='left')
+        
+        bg_button_frame = tk.Frame(bg_frame, bg='#f0f0f0')
+        bg_button_frame.pack(fill='x', pady=5)
+        
+        self.bg_label = tk.Label(
+            bg_button_frame, 
+            text="background.pdf (found)" if self.background_file else "No background selected", 
+            bg='white', 
+            relief='sunken',
+            anchor='w',
+            padx=10,
+            pady=5
+        )
+        self.bg_label.pack(side='left', fill='x', expand=True)
+        
+        bg_btn = tk.Button(
+            bg_button_frame,
+            text="Browse",
+            command=self.select_background_file,
+            bg='#607D8B',
+            fg='white',
+            font=("Arial", 10, "bold"),
+            relief='raised',
+            padx=20
+        )
+        bg_btn.pack(side='right', padx=(10, 0))
         
         # Options frame
         options_frame = tk.LabelFrame(
@@ -266,6 +323,16 @@ class PDFMarginAdjuster:
         if file_path:
             self.logo_file = file_path
             self.logo_label.config(text=os.path.basename(file_path))
+            
+    def select_background_file(self):
+        file_path = filedialog.askopenfilename(
+            title="Select Background PDF",
+            filetypes=[("PDF files", "*.pdf"), ("All files", "*.*")]
+        )
+        if file_path:
+            self.background_file = file_path
+            self.bg_label.config(text=os.path.basename(file_path))
+            self.use_background.set(True)
     
     def update_status(self, message):
         self.status_label.config(text=message)
@@ -348,6 +415,20 @@ class PDFMarginAdjuster:
             # Open the input PDF
             pdf_document = fitz.open(self.input_file)
             total_pages = len(pdf_document)
+
+            # Load background PDF if enabled
+            bg_document = None
+            bg_page = None
+            if self.use_background.get() and self.background_file and os.path.exists(self.background_file):
+                # print(f"DEBUG: Background Enabled. File: {self.background_file}")
+                try:
+                    bg_document = fitz.open(self.background_file)
+                    if len(bg_document) > 0:
+                        bg_page = bg_document[0]  # Use first page as background
+                except Exception as e:
+                    print(f"Warning: Could not load background PDF: {e}")
+            # else:
+            #     print(f"DEBUG: Background Disabled per checkbox (Value: {self.use_background.get()})")
             
             # Calculate line height and margins
             line_height = 16  # points
@@ -385,8 +466,21 @@ class PDFMarginAdjuster:
                     clip=original_rect
                 )
                 
-                # Add watermark if logo is selected
+                # Apply Background if active (Overlay Mode - Middle Layer)
+                if bg_page:
+                    # print("DEBUG: Applying Background Overlay")
+                    # Draw background page as overlay
+                    new_page.show_pdf_page(
+                        new_page.rect,
+                        bg_document,
+                        0, # page number 0 of background doc
+                        clip=None
+                    )
+                
+                # Add watermark if logo is selected (Applies on TOP of everything)
+                # This ensures it is always visible, even if background/content is opaque
                 if self.logo_file and os.path.exists(self.logo_file):
+                    # print("DEBUG: Applying Logo Watermark")
                     self.add_watermark_to_page(new_page, original_rect, watermark_start_y)
             
             self.update_status("Saving output file...")
@@ -396,6 +490,8 @@ class PDFMarginAdjuster:
             new_pdf.save(output_path)
             new_pdf.close()
             pdf_document.close()
+            if bg_document:
+                bg_document.close()
             
             self.progress['value'] = 100
             self.update_status("PDF processed successfully!")
@@ -532,17 +628,13 @@ class PDFMarginAdjuster:
 
 # Installation instructions and requirements check
 def check_requirements():
-    required_modules = ['PyPDF2', 'reportlab', 'fitz', 'PIL']
+    required_modules = ['fitz', 'PIL']
     missing_modules = []
     
     for module in required_modules:
         try:
             if module == 'fitz':
                 import fitz
-            elif module == 'PyPDF2':
-                import PyPDF2
-            elif module == 'reportlab':
-                import reportlab
             elif module == 'PIL':
                 from PIL import Image
         except ImportError:
@@ -552,10 +644,6 @@ def check_requirements():
         print("Missing required modules. Please install them using:")
         if 'fitz' in missing_modules:
             print("pip install PyMuPDF")
-        if 'PyPDF2' in missing_modules:
-            print("pip install PyPDF2")
-        if 'reportlab' in missing_modules:
-            print("pip install reportlab")
         if 'PIL' in missing_modules:
             print("pip install Pillow")
         return False
